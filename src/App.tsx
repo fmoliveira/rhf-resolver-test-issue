@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useForm } from "react-hook-form";
+import Headers from "./Header";
+import "./styles.css";
 
-function App() {
+type FormValues = {
+  firstName: string;
+};
+
+let renderCount = 0;
+
+export default function App() {
+  const { register, handleSubmit } = useForm<FormValues>();
+  const onSubmit = (data: FormValues) => console.log(data);
+  renderCount++;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Headers
+        renderCount={renderCount}
+        description="Performant, flexible and extensible forms with easy-to-use validation."
+      />
+
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <input name="firstName" placeholder="First Name" ref={register} />
+        <input type="submit" />
+      </form>
     </div>
   );
 }
-
-export default App;
