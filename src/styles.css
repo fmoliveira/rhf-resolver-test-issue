@@ -49,6 +49,7 @@ section > label {
 }
 
 input[type="submit"],
+button,
 .button {
   background: #ec5990;
   color: white;
@@ -108,4 +109,8 @@ button[type="button"] {
 button[type="button"]:hover {
   background: #bf1650;
   color: white;
+}
+
+.success-note {
+  padding-top: 1em;
 }

@@ -9,7 +9,7 @@ type FormValues = {
 let renderCount = 0;
 
 export default function App() {
-  const { register, handleSubmit } = useForm<FormValues>();
+  const { register, handleSubmit, formState } = useForm<FormValues>();
   const onSubmit = (data: FormValues) => console.log(data);
   renderCount++;
 
@@ -22,8 +22,12 @@ export default function App() {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <input name="firstName" placeholder="First Name" ref={register} />
-        <input type="submit" />
+        <button type="submit">Submit</button>
       </form>
+
+      {formState.isSubmitSuccessful && (
+        <div className="success-note">Form submitted</div>
+      )}
     </div>
   );
 }
