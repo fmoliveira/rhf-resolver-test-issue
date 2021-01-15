@@ -1,46 +1,36 @@
-# Getting Started with Create React App
+# Syntax error on jest with @hookform/resolvers
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Repository created for reproducing an issue testing RHF with validation resolvers. [Follow the discussion on Spectrum](https://spectrum.chat/react-hook-form/help/syntax-error-on-jest-with-hookform-resolvers~06bcdf90-feab-4576-bdbe-c36a5bcbbe54). Code hosted at [GitHub](https://github.com/fmoliveira/rhf-resolver-test-issue) and [CodeSandbox](https://codesandbox.io/s/rhf-resolver-test-issue-27u9g), but the issue is not reproduced reliably on CodeSandbox.
 
-## Available Scripts
+> TL;DR just run `yarn` and `yarn test` to reproduce my issue, make sure you have node v12 or later
 
-In the project directory, you can run:
+The problem happens when I add the package `@hookform/resolvers` along with `joi` and setup a `joiResolver` (I've tried with `yup` too) on my `useForm` hook, the whole test suite falls apart and none of the tests will run anymore. I have the following error message on my test console:
 
-### `yarn start`
+```
+Jest encountered an unexpected token
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+.../rhf-resolver-test-issue/node_modules/@hookform/resolvers/dist/joi.js:1
+    ({"Object.<anonymous>":function(module,exports,require,__dirname,__filename,global,jest){import { appendErrors, transformToNestObject, } from 'react-hook-form';
+                                                                                             ^^^^^^
+SyntaxError: Cannot use import statement outside a module
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Apparently, the `import` statement from the package `@hookform/resolvers` is not being interpreted properly on Jest's environment. To me, it doesn't seem to be a problem with RHF, but rather something that's missing on my environment and preventing the @hookform/resolvers package to be interpreted properly in Jest's environment, but I've been unable to figure out what's behind that.
 
-### `yarn test`
+Any directions on helping me figure out what's happening is appreciated. Thanks a lot!
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## System requirements
 
-### `yarn build`
+Node.js v12 or later
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## How to run the tests and reproduce the issue
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Install dependencies with `yarn` or `npm install`.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Run project with `yarn test` or `npm test`.
 
-### `yarn eject`
+## How to run this project on the browser
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Install dependencies with `yarn` or `npm install`.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Run project with `yarn start` or `npm start`.
