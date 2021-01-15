@@ -27,7 +27,9 @@ describe("App", () => {
     userEvent.click(screen.getByRole("button", { name: "Submit" }));
     await screen.findByText("Form submitted");
 
-    expect(screen.getByText("First name cannot be empty")).toBeInTheDocument();
+    expect(
+      screen.getByText('"firstName" is not allowed to be empty')
+    ).toBeInTheDocument();
     expect(console.log).not.toBeCalled();
   });
 });

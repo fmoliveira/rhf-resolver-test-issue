@@ -1,4 +1,6 @@
 import { useForm } from "react-hook-form";
+import { joiResolver } from "@hookform/resolvers/joi";
+import Joi from "joi";
 
 import Headers from "./Header";
 import "./styles.css";
@@ -7,10 +9,16 @@ type FormValues = {
   firstName: string;
 };
 
+const validationSchema = Joi.object({
+  firstName: Joi.string().required(),
+});
+
 let renderCount = 0;
 
 export default function App() {
-  const { register, errors, handleSubmit, formState } = useForm<FormValues>();
+  const { register, errors, handleSubmit, formState } = useForm<FormValues>({
+    resolver: joiResolver(validationSchema),
+  });
   const onSubmit = (data: FormValues) => console.log(data);
   renderCount++;
 
@@ -22,13 +30,9 @@ export default function App() {
       />
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <input
-          name="firstName"
-          placeholder="First Name"
-          ref={register({ required: true })}
-        />
-        {errors.firstName?.type === "required" && (
-          <span className="error-message">First name cannot be empty</span>
+        <input name="firstName" placeholder="First Name" ref={register} />
+        {errors.firstName && (
+          <span className="error-message">{errors.firstName.message}</span>
         )}
         <button type="submit">Submit</button>
       </form>
