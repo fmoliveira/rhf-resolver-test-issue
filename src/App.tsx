@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+
 import Headers from "./Header";
 import "./styles.css";
 
@@ -9,7 +10,7 @@ type FormValues = {
 let renderCount = 0;
 
 export default function App() {
-  const { register, handleSubmit, formState } = useForm<FormValues>();
+  const { register, errors, handleSubmit, formState } = useForm<FormValues>();
   const onSubmit = (data: FormValues) => console.log(data);
   renderCount++;
 
@@ -21,11 +22,18 @@ export default function App() {
       />
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <input name="firstName" placeholder="First Name" ref={register} />
+        <input
+          name="firstName"
+          placeholder="First Name"
+          ref={register({ required: true })}
+        />
+        {errors.firstName?.type === "required" && (
+          <span className="error-message">First name cannot be empty</span>
+        )}
         <button type="submit">Submit</button>
       </form>
 
-      {formState.isSubmitSuccessful && (
+      {formState.isSubmitted && (
         <div className="success-note">Form submitted</div>
       )}
     </div>

@@ -14,10 +14,20 @@ describe("App", () => {
     expect(console.log).not.toBeCalled();
 
     userEvent.click(screen.getByRole("button", { name: "Submit" }));
-
     await screen.findByText("Form submitted");
+
     expect(console.log).toBeCalledWith({
       firstName: "Bruce",
     });
+  });
+
+  it("displays validation errors", async () => {
+    render(<App />);
+
+    userEvent.click(screen.getByRole("button", { name: "Submit" }));
+    await screen.findByText("Form submitted");
+
+    expect(screen.getByText("First name cannot be empty")).toBeInTheDocument();
+    expect(console.log).not.toBeCalled();
   });
 });

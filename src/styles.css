@@ -114,3 +114,7 @@ button[type="button"]:hover {
 .success-note {
   padding-top: 1em;
 }
+
+.error-message {
+  color: red;
+}
